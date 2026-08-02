@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { CardList } from './card-list.component';
 import { Monster } from '../../models/monster';

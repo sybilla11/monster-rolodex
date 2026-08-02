@@ -54,6 +54,17 @@ test('filters monsters as the user types in the search box', async () => {
   expect(screen.getByText('Ervin Howell')).toBeInTheDocument();
 });
 
+test('shows an empty-state message when no monster matches the search', async () => {
+  (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue(mockFetchResponse(monsters));
+  const user = userEvent.setup();
+  render(<App />);
+  await waitFor(() => expect(screen.getByText('Leanne Graham')).toBeInTheDocument());
+
+  await user.type(screen.getByPlaceholderText('search Monster'), 'zzz');
+
+  expect(screen.getByText(/no monsters match your search/i)).toBeInTheDocument();
+});
+
 test('shows an error message when the fetch fails', async () => {
   (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue(mockFetchFailure(500));
   render(<App />);

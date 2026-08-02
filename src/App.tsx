@@ -29,18 +29,31 @@ function App() {
     setSearchField(e.target.value);
   };
 
-  const filteredMonsters = monsters.filter(monster =>
-    monster.name.toLowerCase().includes(searchField.toLowerCase())
+  const filteredMonsters = React.useMemo(
+    () =>
+      monsters.filter(monster =>
+        monster.name.toLowerCase().includes(searchField.toLowerCase())
+      ),
+    [monsters, searchField]
   );
 
   return (
-    <div>
+    <main>
       <h1>Monster Rolodex</h1>
       <Searchbox placeholder='search Monster' changeHandle={changeHandler} />
-      {isLoading && <p>Loading monsters...</p>}
-      {error && <p>Something went wrong: {error}</p>}
-      {!isLoading && !error && <CardList monsters={filteredMonsters} />}
-    </div>
+      {isLoading && <p className='status-message'>Loading monsters...</p>}
+      {error && (
+        <p className='status-message status-message--error'>
+          Something went wrong: {error}
+        </p>
+      )}
+      {!isLoading && !error && filteredMonsters.length === 0 && (
+        <p className='status-message'>No monsters match your search.</p>
+      )}
+      {!isLoading && !error && filteredMonsters.length > 0 && (
+        <CardList monsters={filteredMonsters} />
+      )}
+    </main>
   );
 }
 

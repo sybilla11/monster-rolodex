@@ -1,4 +1,4 @@
-.App {
+main {
   text-align: center;
 }
 h1 {
@@ -6,4 +6,12 @@ h1 {
   font-size: 72px;
   color: #0ccac4;
   text-align: center;
+}
+.status-message {
+  color: #e8fbfb;
+  font-size: 18px;
+  margin-top: 40px;
+}
+.status-message--error {
+  color: #ff8a80;
 }
