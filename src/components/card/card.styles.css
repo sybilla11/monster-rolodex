@@ -9,8 +9,23 @@
   -moz-osx-font-smoothing: grayscale;
   backface-visibility: hidden;
   transform: translateZ(0);
-  transition: transform 0.25s ease-out;
+  transition: transform 0.25s ease-out, box-shadow 0.25s ease-out;
 }
 .card-container:hover {
   transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+.card-image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 5px;
+  background-color: #fff;
+}
+.card-container h2 {
+  margin: 12px 0 4px;
+}
+.card-container p {
+  margin: 0;
+  word-break: break-word;
 }
