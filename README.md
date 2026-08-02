@@ -1,68 +1,61 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Monster Rolodex
 
-## Available Scripts
+A small React + TypeScript app that fetches a list of "monsters" from an API and lets you search them by name. Originally scaffolded with Create React App; since migrated to a modern Vite/TypeScript/Vitest toolchain.
 
-In the project directory, you can run:
+Live site: https://sybilla11.github.io/monster-rolodex/
 
-### `npm start`
+## Tech stack
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **React 19** with function components and hooks
+- **TypeScript** (strict mode)
+- **Vite** for the dev server and production build
+- **Vitest** + **React Testing Library** for tests
+- **ESLint** (flat config) for linting
+- **GitHub Actions** for CI (lint, test, build on every push/PR)
+- Deployed to **GitHub Pages** via the `gh-pages` package
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Getting started
 
-### `npm test`
+Requires Node `^20.19.0` or `>=22.12.0` (see `engines` in `package.json`).
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+npm start
+```
 
-### `npm run build`
+This starts the Vite dev server, by default at `http://localhost:5173/monster-rolodex/`.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Available scripts
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+| Script | Description |
+|---|---|
+| `npm start` | Run the dev server (Vite) |
+| `npm run build` | Type-check with `tsc` and build for production into `build/` |
+| `npm run preview` | Preview the production build locally |
+| `npm test` | Run the test suite once (Vitest) |
+| `npm run test:watch` | Run tests in watch mode |
+| `npm run lint` | Lint the project (ESLint) |
+| `npm run deploy` | Build and publish `build/` to the `gh-pages` branch |
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Project structure
 
-### `npm run eject`
+```
+src/
+  App.tsx                    # root component: fetches monsters, owns search state
+  components/
+    card/                    # a single monster card
+    card-list/                # grid of cards
+    search-box/                # search input
+  models/monster.ts           # shared Monster type
+  index.tsx                   # app entry point
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+Each component has a colocated `.test.tsx` file. Component styling is plain CSS, colocated per component.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Deployment
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+The site is hosted on GitHub Pages, served from the `gh-pages` branch. `npm run deploy` builds the app and pushes the `build/` output to that branch via the `gh-pages` package; GitHub Pages is configured to serve directly from it. The `base` path in `vite.config.ts` (`/monster-rolodex/`) matches the GitHub Pages project-site path.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## CI
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Every push and pull request to `master` runs lint, tests, and a production build via `.github/workflows/ci.yml`.
