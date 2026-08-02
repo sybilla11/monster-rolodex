@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Searchbox } from './search-box.component';
@@ -9,7 +8,7 @@ test('renders with the given placeholder', () => {
 });
 
 test('calls changeHandle as the user types', async () => {
-  const changeHandle = jest.fn();
+  const changeHandle = vi.fn();
   const user = userEvent.setup();
   render(<Searchbox placeholder="search Monster" changeHandle={changeHandle} />);
 

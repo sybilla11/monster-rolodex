@@ -1,4 +1,3 @@
-import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from './App';
@@ -16,35 +15,35 @@ const mockFetchFailure = (status: number) =>
   ({ ok: false, status } as Response);
 
 beforeEach(() => {
-  global.fetch = jest.fn();
+  global.fetch = vi.fn();
 });
 
 afterEach(() => {
-  jest.restoreAllMocks();
+  vi.restoreAllMocks();
 });
 
 test('renders monster rolodex heading', async () => {
-  (global.fetch as jest.Mock).mockResolvedValue(mockFetchResponse([]));
+  (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue(mockFetchResponse([]));
   render(<App />);
   expect(screen.getByText(/monster rolodex/i)).toBeInTheDocument();
   await waitFor(() => expect(global.fetch).toHaveBeenCalled());
 });
 
 test('shows a loading state before monsters arrive', () => {
-  (global.fetch as jest.Mock).mockReturnValue(new Promise(() => {}));
+  (global.fetch as ReturnType<typeof vi.fn>).mockReturnValue(new Promise(() => {}));
   render(<App />);
   expect(screen.getByText(/loading monsters/i)).toBeInTheDocument();
 });
 
 test('renders monsters once the fetch resolves', async () => {
-  (global.fetch as jest.Mock).mockResolvedValue(mockFetchResponse(monsters));
+  (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue(mockFetchResponse(monsters));
   render(<App />);
   await waitFor(() => expect(screen.getByText('Leanne Graham')).toBeInTheDocument());
   expect(screen.getByText('Ervin Howell')).toBeInTheDocument();
 });
 
 test('filters monsters as the user types in the search box', async () => {
-  (global.fetch as jest.Mock).mockResolvedValue(mockFetchResponse(monsters));
+  (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue(mockFetchResponse(monsters));
   const user = userEvent.setup();
   render(<App />);
   await waitFor(() => expect(screen.getByText('Leanne Graham')).toBeInTheDocument());
@@ -56,7 +55,7 @@ test('filters monsters as the user types in the search box', async () => {
 });
 
 test('shows an error message when the fetch fails', async () => {
-  (global.fetch as jest.Mock).mockResolvedValue(mockFetchFailure(500));
+  (global.fetch as ReturnType<typeof vi.fn>).mockResolvedValue(mockFetchFailure(500));
   render(<App />);
   await waitFor(() => expect(screen.getByText(/something went wrong/i)).toBeInTheDocument());
 });
